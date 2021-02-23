@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/time/rate"
 
+	"github.com/hashicorp/consul/agent/rpcclient/health"
+
 	"github.com/hashicorp/consul/agent/cache"
 	cachetype "github.com/hashicorp/consul/agent/cache-types"
 	"github.com/hashicorp/consul/agent/connect"
@@ -343,11 +345,11 @@ func testManager_BasicLifecycle(
 
 	// Create manager
 	m, err := NewManager(ManagerConfig{
-		Cache:                  c,
-		State:                  state,
-		Source:                 source,
-		Logger:                 logger,
-		ServiceHealthCacheName: cachetype.HealthServicesName,
+		Cache:  c,
+		Health: &health.Client{Cache: c, CacheName: cachetype.HealthServicesName},
+		State:  state,
+		Source: source,
+		Logger: logger,
 	})
 	require.NoError(err)
 
