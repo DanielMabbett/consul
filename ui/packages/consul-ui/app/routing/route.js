@@ -20,7 +20,8 @@ export default class BaseRoute extends Route {
    * before any calls to the backend for this model/route.
    */
   async beforeModel() {
-    const abilities = get(routes, `${this.routeName}._options.abilities`) || [];
+    const path = this.routeName.split('.').join('.route.');
+    const abilities = get(routes, `route.${path}.abilities`) || [];
     if (abilities.length > 0) {
       if (!abilities.every(ability => this.permissions.can(ability))) {
         throw new HTTPError(403);
