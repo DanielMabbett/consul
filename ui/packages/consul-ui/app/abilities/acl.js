@@ -13,4 +13,7 @@ export default class ACLAbility extends BaseAbility {
   get canRead() {
     return this.env.var('CONSUL_ACLS_ENABLED') && super.canRead;
   }
+  get canUse() {
+    return this.env.var('CONSUL_ACLS_ENABLED');
+  }
 }
